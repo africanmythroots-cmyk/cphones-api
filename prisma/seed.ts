@@ -88,8 +88,7 @@ async function main() {
       comparePrice: 3600000,
       stockQty: 25,
       images: [
-        'https://images.unsplash.com/photo-1695048133142-1a20484d2569?q=80&w=600&auto=format&fit=crop',
-        'https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?q=80&w=600&auto=format&fit=crop'
+        '/images/products/prod_iphone_15.png'
       ].join(','),
       specs: JSON.stringify({
         Screen: '6.7 inches Super Retina XDR OLED',
@@ -120,8 +119,7 @@ async function main() {
       comparePrice: 3500000,
       stockQty: 20,
       images: [
-        'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?q=80&w=600&auto=format&fit=crop',
-        'https://images.unsplash.com/photo-1580974928064-f0caef708902?q=80&w=600&auto=format&fit=crop'
+        '/images/products/prod_s24_ultra.png'
       ].join(','),
       specs: JSON.stringify({
         Screen: '6.8 inches Dynamic LTPO AMOLED 2X',
@@ -152,8 +150,7 @@ async function main() {
       comparePrice: 5200000,
       stockQty: 8,
       images: [
-        'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=600&auto=format&fit=crop',
-        'https://images.unsplash.com/photo-1496181130204-7552cc14ac42?q=80&w=600&auto=format&fit=crop'
+        '/images/products/prod_macbook_pro.png'
       ].join(','),
       specs: JSON.stringify({
         Screen: '14.2 inches Liquid Retina XDR',
@@ -184,7 +181,7 @@ async function main() {
       comparePrice: 4100000,
       stockQty: 6,
       images: [
-        'https://images.unsplash.com/photo-1593642632823-8f785ba67e45?q=80&w=600&auto=format&fit=crop'
+        '/images/products/prod_dell_xps.png'
       ].join(','),
       specs: JSON.stringify({
         Screen: '13.4 inches FHD+ InfinityEdge Display',
@@ -214,7 +211,7 @@ async function main() {
       comparePrice: 750000,
       stockQty: 40,
       images: [
-        'https://images.unsplash.com/photo-1588449668365-d15e397f6787?q=80&w=600&auto=format&fit=crop'
+        '/images/products/prod_airpods_pro.png'
       ].join(','),
       specs: JSON.stringify({
         Audio: 'Custom high-excursion Apple driver, personalized spatial audio',
@@ -238,7 +235,7 @@ async function main() {
       comparePrice: 500000,
       stockQty: 30,
       images: [
-        'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?q=80&w=600&auto=format&fit=crop'
+        '/images/products/prod_galaxy_buds.png'
       ].join(','),
       specs: JSON.stringify({
         Audio: 'Custom 2-way coaxial speaker, intelligent ANC',
@@ -257,13 +254,13 @@ async function main() {
     data: [
       {
         title: 'Upgrade to Titanium',
-        imageUrl: 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?q=80&w=1200&auto=format&fit=crop',
+        imageUrl: '/images/banners/banner_iphone.png',
         link: '/products/iphone-15-pro-max',
         position: 1,
       },
       {
         title: 'MacBook Pro Supercharged by M3',
-        imageUrl: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=1200&auto=format&fit=crop',
+        imageUrl: '/images/banners/banner_macbook.png',
         link: '/products/macbook-pro-14-m3',
         position: 2,
       },
