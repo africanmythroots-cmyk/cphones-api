@@ -1,0 +1,179 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           String     @id @default(uuid())
+  name         String
+  email        String     @unique
+  phone        String
+  passwordHash String
+  role         String     @default("CUSTOMER") // "CUSTOMER" or "ADMIN"
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  orders       Order[]
+  reviews      Review[]
+  wishlists    Wishlist[]
+  addresses    Address[]
+
+  @@map("users")
+}
+
+model Category {
+  id        String     @id @default(uuid())
+  name      String
+  slug      String     @unique
+  icon      String?
+  parentId  String?
+  isActive  Boolean    @default(true)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  parent    Category?  @relation("CategoryToCategory", fields: [parentId], references: [id])
+  children  Category[] @relation("CategoryToCategory")
+  products  Product[]
+
+  @@map("categories")
+}
+
+model Product {
+  id           String           @id @default(uuid())
+  name         String
+  slug         String           @unique
+  description  String
+  brand        String
+  categoryId   String
+  category     Category         @relation(fields: [categoryId], references: [id])
+  price        Float
+  comparePrice Float?
+  stockQty     Int              @default(0)
+  images       String           // Comma-separated list or JSON array string
+  specs        String           // JSON string representing specs
+  isActive     Boolean          @default(true)
+  isFeatured   Boolean          @default(false)
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+
+  variants     ProductVariant[]
+  orderItems   OrderItem[]
+  reviews      Review[]
+  wishlists    Wishlist[]
+
+  @@map("products")
+}
+
+model ProductVariant {
+  id        String      @id @default(uuid())
+  productId String
+  product   Product     @relation(fields: [productId], references: [id], onDelete: Cascade)
+  name      String      // e.g. "128GB Blue"
+  sku       String      @unique
+  price     Float
+  stockQty  Int         @default(0)
+
+  orderItems OrderItem[]
+
+  @@map("product_variants")
+}
+
+model Order {
+  id              String      @id @default(uuid())
+  userId          String
+  user            User        @relation(fields: [userId], references: [id])
+  status          String      @default("PENDING") // "PENDING", "CONFIRMED", "PACKED", "SHIPPED", "DELIVERED", "CANCELLED"
+  total           Float
+  deliveryType    String      // "HOME_DELIVERY" or "PICKUP"
+  deliveryAddress String
+  paymentMethod   String      // "PESAPAL", "COD", "M-PESA"
+  paymentStatus   String      @default("PENDING") // "PENDING", "PAID", "FAILED", "REFUNDED"
+  trackingCode    String?     @unique
+  notes           String?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  items           OrderItem[]
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id        String          @id @default(uuid())
+  orderId   String
+  order     Order           @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product         @relation(fields: [productId], references: [id])
+  variantId String?
+  variant   ProductVariant? @relation(fields: [variantId], references: [id])
+  quantity  Int
+  unitPrice Float
+
+  @@map("order_items")
+}
+
+model Review {
+  id        String   @id @default(uuid())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  rating    Int      // 1 to 5
+  title     String
+  body      String
+  createdAt DateTime @default(now())
+
+  @@map("reviews")
+}
+
+model Wishlist {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@map("wishlists")
+}
+
+model Banner {
+  id        String   @id @default(uuid())
+  imageUrl  String
+  link      String?
+  title     String
+  isActive  Boolean  @default(true)
+  position  Int      @default(0)
+
+  @@map("banners")
+}
+
+model Offer {
+  id              String   @id @default(uuid())
+  title           String
+  description     String
+  discountPercent Float
+  productIds      String   // Comma-separated list or JSON array string of Product IDs
+  startDate       DateTime
+  endDate         DateTime
+  isActive        Boolean  @default(true)
+
+  @@map("offers")
+}
+
+model Address {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  label     String   // e.g. "Home", "Office"
+  street    String
+  city      String
+  region    String
+  isDefault Boolean  @default(false)
+
+  @@map("addresses")
+}
